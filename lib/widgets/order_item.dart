@@ -23,7 +23,7 @@ class _OrderItemState extends State<OrderItem> {
       child: Column(
         children: [
           ListTile(
-            title: Text('\$${widget.order.amount}'),
+            title: Text('\$${widget.order.amount.toStringAsFixed(2)}'),
             subtitle: Text(
                 DateFormat('yyyy/MM/dd hh:mm').format(widget.order.dateTime)),
             trailing: IconButton(
@@ -37,25 +37,28 @@ class _OrderItemState extends State<OrderItem> {
           ),
           if (_expanded)
             Container(
-              height: min(widget.order.products.length * 20.0 + 100, 180),
+              height: min(widget.order.products.length * 20.0 + 25, 180),
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
               child: ListView(
-                children: widget.order.products.map((product) {
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        product.title,
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '${product.quantity}x \$${product.price}',
-                        style: TextStyle(color: Colors.grey, fontSize: 18),
-                      )
-                    ],
-                  );
-                }).toList(),
-              ),
+                  children: widget.order.products
+                      .map((prod) => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                prod.title,
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                '${prod.quantity}x \$${prod.price}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                ),
+                              )
+                            ],
+                          ))
+                      .toList()),
             )
         ],
       ),
