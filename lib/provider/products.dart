@@ -42,7 +42,29 @@ class Products with ChangeNotifier {
     return _items.firstWhere((product) => product.id == id);
   }
 
-  void addProducts() {
+  void addProducts(Product product) {
+    final newProduct = Product(
+        id: DateTime.now().toString(),
+        title: product.title,
+        description: product.description,
+        imageUrl: product.imageUrl,
+        price: product.price);
+    _items.add(newProduct);
+    notifyListeners();
+  }
+
+  void updateProducts(String id, Product newProduct) {
+    final productIndex = _items.indexWhere((prod) => prod.id == id);
+    if (productIndex >= 0) {
+      _items[productIndex] = newProduct;
+      notifyListeners();
+    } else {
+      print('Something went wrong with the product id passed');
+    }
+  }
+
+  void deleteProduct(String id) {
+    _items.removeWhere((prod) => prod.id == id);
     notifyListeners();
   }
 }
