@@ -19,15 +19,15 @@ class Product with ChangeNotifier {
       this.isFavorite = false,
       @required this.price});
 
-  Future<void> toggleFavorite() async {
+  Future<void> toggleFavorite(String token,String userId) async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
     final url =
-        'https://myshop-228a0-default-rtdb.firebaseio.com/products/$id.json';
+        'https://myshop-228a0-default-rtdb.firebaseio.com/userFavorites/$userId/$id.json?auth=$token';
     try {
       final response =
-          await http.patch(url, body: json.encode({'isFavorite': isFavorite}));
+          await http.put(url, body: json.encode(isFavorite));
       if (response.statusCode >= 400) {
         isFavorite = oldStatus;
         notifyListeners();

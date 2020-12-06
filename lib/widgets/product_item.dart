@@ -4,12 +4,14 @@ import 'package:provider/provider.dart';
 import '../screens/product_detail_screen.dart';
 import '../provider/product.dart';
 import '../provider/cart.dart';
+import '../provider/auth.dart';
 
 class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final authData = Provider.of<Auth>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
           boxShadow: [BoxShadow(blurRadius: 10, color: Colors.black45)]),
@@ -36,7 +38,7 @@ class ProductItem extends StatelessWidget {
                     : Icons.favorite_border),
                 color: Theme.of(context).accentColor,
                 onPressed: () {
-                  product.toggleFavorite();
+                  product.toggleFavorite(authData.token,authData.userId);
                 },
               ),
             ),
